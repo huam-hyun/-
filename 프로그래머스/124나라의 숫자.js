@@ -1,3 +1,6 @@
+// 테스트 성공
+// 효율성 테스트 1, 2, 5 실패
+
 function solution(n) {
     let answer = ''
     const numberMapping = {
@@ -12,23 +15,33 @@ function solution(n) {
         n = parseInt(n / 3)
     }
 
-    // 3진법 거꾸로 쓴 글자
+    // 3진법 수
     string = string.split('')
+    let length = string.length
 
-    for(let i = 0; i < string.length; i++){
-        if(string[string.length-1] === '0') break
-        if(string[i] <= 0){
-            string[i + 1]--
-            string[i] = 3
-            answer += string[i]
+    string.forEach((e, i) => {
+        if(e <= 0){
+            if(i + 1 === length){
+                return
+            }
+            string[i+1]--
+            string[i] = +string[i] + 3
         }
+    })
+    
+    string.reverse()
+    if(string[0] == 0){
+        string.splice(0, 1)
+        length--
     }
-    
-    console.log(string)
 
-    
+    for(let i = 0; i < length; i++){
+        answer += numberMapping[string[i]]
+    }
 
     return answer;
 }
 
-console.log(solution(3))
+for(let i = 1 ; i < 11; i ++){
+    console.log(solution(i))
+}
