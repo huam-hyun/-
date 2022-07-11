@@ -9,6 +9,7 @@ function solution(s) {
         set[i] = set[i].replace(/[^,0-9]/g, '')
         set[i] = set[i].split(',')
     }
+    console.log(set)
 
     set.sort((a, b) => {
         return a.length - b.length
