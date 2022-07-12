@@ -1,4 +1,7 @@
-// 프로그래머스 내부 오류로 확인 불가
+// 통과
+// 틀린 이유 :
+// 문제를 제대로 안읽어서 u가 올바른 문자열이 아니면 u를 조건대로 해서 뒤에 붙인다고 생각했는데
+// v를 다시 재귀적으로 처리하고 괄호를 붙인다음 그 뒤에 u를 붙이는 거였다
 
 function solution(p) {
     let left = 0
@@ -19,25 +22,28 @@ function solution(p) {
         }
         if(left === right){
             u = p.slice(0, i + 1)
-            v = p.slice(i + 1, p.length)
+            v = p.slice(i + 1)
             break
         }
     }
 
+    // u가 올바르지 않은 문자열 이면
     if(checkU(u)){
-        if(u.length === 2){
-            u = "()"
-        }else{
-            let temp = ''
-            for(let i = 1; i < u.length - 1; i++){
-                if(u[i] === '('){
-                    temp += ')'
-                }else{
-                    temp += '('
-                }
+        let temp = ''
+
+        // u의 처음과 끝을 제거하고 가운데 있는 괄호를 뒤집어준다
+        for(let i = 1; i < u.length - 1; i++){
+            // 괄호를 뒤집는다
+            if(u[i] === '('){
+                temp += ')'
+            }else{
+                temp += '('
             }
-            u = '(' + temp + ')'
         }
+        u = temp
+        v = '(' + solution(v) + ')'
+
+        return v + u
     }
 
     return u + solution(v)
@@ -68,4 +74,4 @@ const p = ")("
 const p2 = "(()())()"
 const p3 = 	"()))((()"
 
-console.log(solution(p2))
+console.log(solution(p))
