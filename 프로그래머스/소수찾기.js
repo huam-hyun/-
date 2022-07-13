@@ -1,26 +1,36 @@
+// 테스트케이스 1, 2, 4, 7, 10, 11, 12 실패
+// 틀린이유 : dfs 사용했는데 같은 숫자가 여러개 있는 경우를 고려안함
+
+// 2차 시도 array에 있는 값을 하나 빼고 나머지 배열을 다시 재귀로 넘겨주는 방식으로 모든 수를 찾음
+// temp = array가 주소를 공유해서 값이 같이 바뀌어서 값이 제대로 안나왔음
+// temp = [...array]로 해결
+// 성공!
+
 const numbers = "17"
 
 function solution(numbers) {
-    let answer = 0;
-    let nums = numbers.split("")
-    const nodes = []
+    let nums = numbers.split('')
     let prime = []
 
-    for(let i = 0; i < nums.length; i++){
-        nodes[i] = i
+    makePrime(nums, '')
+
+    function makePrime(array, pre){
+        if(!array.length){
+            return
+        }
+
+        for(let i = 0; i < array.length; i++){
+            let temp = [...array]
+            let cur = pre + temp[i]
+            if(isPrime(+cur) && !prime.includes(+cur)){
+                prime.push(+cur)
+            }
+            temp.splice(i, 1)
+            makePrime(temp, cur)
+        }
     }
 
-    for(let i = 0; i < nums.length; i++){
-        prime.push(dfs(i.toString(), nodes, nums))
-    }
-    // console.log(prime)
-
-    prime = prime.flat().map(e => +e)
-    answer = new Set(prime).size
-
-    
-
-    return answer;
+    return prime.length;
 }
 
 function isPrime(number){
@@ -33,36 +43,6 @@ function isPrime(number){
         }
     }
     return true
-}
-
-function dfs(startNode, nodes, array){
-    let visited = []
-    let needVisit = []
-    let prime = []
-    let nums = []
-
-    needVisit.push(startNode)
-
-    while(needVisit.length){
-        const node = needVisit.shift()
-        // console.log(nodes)
-        if(!visited.includes(node)){
-            visited.push(node)
-            nodes = nodes.filter(e => e !== node)
-            nums.push(array[node])
-
-            // console.log(visited)
-
-            // 만들어진 문자열이 소수면 prime 배열에 추가
-            if(isPrime(+nums.join(''))){
-                prime.push(nums.join(''))
-            }
-
-            needVisit = [...nodes, ...needVisit]
-        }
-    }
-
-    return prime
 }
 
 console.log(solution(numbers))

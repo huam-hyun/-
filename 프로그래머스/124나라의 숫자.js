@@ -1,6 +1,9 @@
 // 테스트 성공
 // 효율성 테스트 1, 2, 5 실패
 
+// 2차시도 성공
+
+// 1차 시도
 function solution(n) {
     let answer = ''
     const numberMapping = {
@@ -42,6 +45,27 @@ function solution(n) {
     return answer;
 }
 
-for(let i = 1 ; i < 11; i ++){
-    console.log(solution(i))
+// 2차 시도
+function solution2(n){
+    let answer = ''
+
+    function nextNum(n){
+        if(n <= 3){
+            return n.toString()
+        }
+        let p = n - 1
+
+        let next = Math.floor(p / 3)
+        let remain = p % 3 + 1
+
+        return nextNum(next) + remain
+    }
+
+    answer = nextNum(n)
+
+    return answer.replace(/3/g, '4')
+}
+
+for(let i = 152 ; i < 156; i ++){
+    console.log(solution2(i))
 }
