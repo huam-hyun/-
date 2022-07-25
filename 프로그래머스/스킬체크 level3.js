@@ -1,7 +1,7 @@
 // 총점 71.8 실패
 
 // 1번
-
+// 정답
 function solution(tickets) {
     let path = []
     
