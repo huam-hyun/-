@@ -51,7 +51,6 @@ function solution(stones, k) {
     
     function check(mid, stones, k){
         let count = 0
-        let max = 0
         
         for(let i = 0; i < stones.length; i++){
             if(stones[i] <= mid){
