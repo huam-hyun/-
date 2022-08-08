@@ -39,7 +39,6 @@ function solution(m, musicinfos) {
         }
     }
     selected.sort((a, b) => b[0] - a[0])
-    console.log(selected)
 
     return selected.length ? selected[0][1] : '(None)'
 }
