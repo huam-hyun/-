@@ -4,6 +4,52 @@
 // 2차 시도
 // 테스트케이스 6, 11~13, 15~17, 20~28, 32 실패
 
+// 3차 시도
+// 성공
+// bfs로 node들을 순회하면서 최단 거리를 distance에 저장
+// 기준에 맞는 distance의 갯수를 반환함
+
+// 3차 시도 코드
+function solution(N, road, K){
+    let village = new Graph(N)
+    village.findShortest(road)
+    // console.log(village.distance)
+    
+    return village.distance.filter(e => e <= K).length
+    
+    function Graph(N){
+        this.nodes = N
+        this.distance = Array.from(new Array(N+1)).fill(Infinity)
+        this.distance[1] = 0
+        
+        this.findShortest = (roads) =>{
+            let needVisit = [1]
+            let visited = []
+            
+            while(needVisit.length){
+                const node = needVisit.shift()
+                const road = roads.filter(e => e[0] === node || e[1] === node)
+                if(!visited.includes(node)){
+                    visited.push(node)
+                    
+                    const next = road.map(e => e[0] === node ? e[1] : e[0])
+                    
+                    needVisit.push(...next)
+                }
+                road.forEach(e => {
+                    let [a, b, dist] = e
+                    
+                    if(a === node){
+                        this.distance[b] = this.distance[a] + dist < this.distance[b] ? this.distance[a] + dist : this.distance[b]
+                    }else{
+                        this.distance[a] = this.distance[b] + dist < this.distance[a] ? this.distance[b] + dist : this.distance[a]
+                    }
+                })
+            }
+        }
+    }
+}
+
 const N = 5, K = 3
 const road = [[1,2,1],[2,3,3],[5,2,2],[1,4,2],[5,3,1],[5,4,2]]
 
