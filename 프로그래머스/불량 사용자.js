@@ -1,20 +1,22 @@
 // 1차 시도 실패
 // 테스트케이스 6, 7, 9, 11 실패, 5 시간초과
 
+// 5번 시간초과 해결
+
 function solution(user_id, banned_id) {
-    let answer = 0;
     let availId = []
     let combinations = []
     const idList = {}
     
     for(let i = 0; i < banned_id.length; i++){
-        let temp = banned_id[i].replace(/\*/g, '[a-z0-9]')
-        availId.push(temp)
+        let temp = banned_id[i].replace(/\*/g, '.')
+        availId.push([temp, i])
     }
     
-    for(let i = 0; i < availId.length; i++){
+    while(availId.length){
+        const [banned, i] = availId.shift()
         user_id.forEach(e =>{
-            if(e.match(new RegExp(availId[i] + '$', 'g'))){
+            if(e.match(new RegExp(banned + '$', 'g'))){
                 idList[i] ? idList[i].push(e) : idList[i] = [e]
             }
         })
@@ -27,7 +29,11 @@ function solution(user_id, banned_id) {
             let nextCombinations = []
             combinations.forEach(e =>{
                 idList[key].forEach(x => {
-                    nextCombinations.push(`${e} ${x}`)
+                    if(e.split(' ').includes(x)){
+                        return
+                    }else{
+                        nextCombinations.push(`${e} ${x}`)
+                    }
                 })
             })
             combinations = [...nextCombinations]
@@ -35,7 +41,7 @@ function solution(user_id, banned_id) {
     }
     
     combinations = combinations.map(e => e.split(' ').sort().join(' '))
-        .filter(e => new Set(e.split(' ')).size === availId.length)
+    // console.log(combinations)
     
     return new Set(combinations).size;
 }
