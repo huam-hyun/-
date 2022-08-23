@@ -34,7 +34,6 @@ function solution(stones, k) {
     let left = tempStones.shift()
     // 지나갈 수 있는 최댓값
     let right = tempStones.pop()
-    let answer = 0
 
     while(left <= right){
         // 평균 mid

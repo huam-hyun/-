@@ -3,62 +3,53 @@
 const maps = [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,1],[0,0,0,0,1]]
 
 function solution(maps) {
-    let answer = 0;
+    const end = [maps.length - 1, maps[0].length - 1]
+    const answer = findShortest('0 0', maps)
     
-    answer = bfs("0 0", maps)
-    
-    return answer;
-    
+    return answer[end[0]][end[1]]
 }
 
-function bfs(firstNode, maps){
-    let depth = 0
-    let needVisit = []
+function findShortest(start, map){
+    let needVisit = [start]
     let visited = []
-    needVisit.push(firstNode)
+    let dist = 1
     
     while(needVisit.length){
-        const height = maps.length
-        const width = maps[0].length
-        let route = []
-        const dest = `${height - 1} ${width - 1}`
-        maps[0][0] = 0
-        
-        for(let i = 0; i < needVisit.length; i++){
-            const node = needVisit[i]
-            let [row, col] = node.split(' ').map(e => +e)
-            
-            if(!visited.includes(node)){
-                visited.push(node)
-            }
-            
-            // 주변에 갈 수 있는 길이 있는지 확인
-            if((row - 1) >= 0 && maps[row-1][col]){
-                route.push(`${row-1} ${col}`)
-                maps[row-1][col] = 0
-            }
-            if((row + 1) < height && maps[row+1][col]){
-                route.push(`${row+1} ${col}`)
-                maps[row+1][col] = 0
-            }
-            if((col - 1) >= 0 && maps[row][col-1]){
-                route.push(`${row} ${col-1}`)
-                maps[row][col-1] = 0
-            }
-            if((col + 1) < width && maps[row][col+1]){
-                route.push(`${row} ${col+1}`)
-                maps[row][col+1] = 0
-            }
-        }
-        depth++
+        const length = needVisit.length
+        for(let i = 0; i < length; i++){
+            const node = needVisit.shift()
+            const [row, col] = node.split(' ').map(Number)
 
-        needVisit = [...route]
-        route = []
-        if(needVisit.includes(dest)){
-            return depth + 1
+            if(!visited.includes(node)){
+                distance[row][col] = dist
+                map[row][col] = 0
+                visited.push(node)
+                
+                needVisit.push(...getNear(row, col, map))
+            }
         }
+        dist++
+        if(needVisit.includes(`${map.length} ${map[0].length}`)) break
     }
-    return -1
+    
+    return dist
+}
+
+function getNear(row, col, map){
+    let nearNode = [[row - 1, col], [row + 1, col], [row, col - 1], [row, col + 1]]
+    let avail = []
+    
+    nearNode.forEach(e => {
+        if(e[0] < 0 || e[1] < 0 || e[0] === map.length || e[1] === map[0].length){
+            return
+        }else{
+            if(map[e[0]][e[1]] === 1){
+                avail.push(`${e[0]} ${e[1]}`)
+            }
+        }
+    })
+    
+    return avail
 }
 
 console.log(solution(maps))
