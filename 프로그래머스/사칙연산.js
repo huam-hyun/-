@@ -18,7 +18,7 @@ function solution(arr) {
 // function getMax(arr, max, min){
 //     console.log(arr)
 //     // A op1 B만 남았을 경우
-//     if(arr.length <= 3){r
+//     if(arr.length <= 3){
 //         return eval(arr.join(''))
 //     }
     
