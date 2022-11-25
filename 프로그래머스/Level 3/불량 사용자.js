@@ -7,6 +7,50 @@
 // 테스트케이스 2, 6, 7, 9, 10, 11 실패
 // 아마 'abcd'.includes('abc')가 true가 나와서 생기는 문제 같다 (28번째 줄)
 
+// 3차 시도 성공
+// dfs를 통해 모든 경우의 수를 찾았다
+// checked를 통해 중복되는 아이디를 제거하고 used를 통해 모든 banned_id가 사용되었는지 확인하였다
+
+// 6, 7, 9, 11문제의 경우 'abc'를 검출할때 관련없는 'dabc'가 같이 검출돼서 생기는 문제였다
+// 정규 표현식 앞에 ^를 추가해서 정확하게 걸리도록 수정해주었다.
+
+// 3차 코드
+function solution(user_id, banned_id) {
+    const ids = new Set();
+    let used = new Array(banned_id.length).fill(false);
+    
+    banned_id = banned_id.map(e => '^' + e.replace(/\*/g, '.') + '$')
+    let needVisit = user_id.filter(e => e.match(banned_id[0]));
+    
+    for(let i = 0; i < needVisit.length; i++){
+        dfs(needVisit[i], [], [...used], user_id, banned_id, [], ids);
+    }
+    
+    return new Set(ids).size;
+}
+
+function dfs(check, checked, used, user_id, banned_id, array, set){  
+    const id = check;
+    const index = banned_id.findIndex((ban, i) => id.match(ban) && !used[i]);
+    if(index >= 0 && !checked.includes(id)){
+        used[index] = true;
+        checked.push(id);
+        
+        array[index] = id;
+        
+        if(used.includes(false)){
+            const next = banned_id[used.indexOf(false)];
+            const nextIds = user_id.filter(e => e.match(next) && !checked.includes(e));
+            
+            for(let i = 0; i < nextIds.length; i++){
+                dfs(nextIds[i], [...checked], [...used], user_id, banned_id, [...array], set);
+            }
+        }else{
+            set.add(array.sort().join(' '));
+        }
+    }
+}
+
 // 2차 코드
 function solution(user_id, banned_id) {
     let ids = []
