@@ -4,8 +4,8 @@
 // 최대, 최소를 모두 알아야하기 때문에 MAX_DP, MIN_DP 사용
 function solution(arr) {
     const n = Math.ceil(arr.length / 2);
-    let MAX_DP = new Array(n).fill(0).map(e => new Array(n).fill(-Infinity));
-    let MIN_DP = new Array(n).fill(0).map(e => new Array(n).fill(Infinity));
+    let MAX_DP = new Array(n).fill(0).map(e => new Array(n).fill(-Infinity));   // MAX_DP[i][j] = i에서 j연산의 최댓값
+    let MIN_DP = new Array(n).fill(0).map(e => new Array(n).fill(Infinity));    // MIN_DP[i][j] = i에서 j연산의 최솟값
     let nums = [];  // 숫자
     let ops = [];   // 연산자
     
