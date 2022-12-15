@@ -1,4 +1,4 @@
-const input = '(()[[]])([])';
+const input = '())([]';
 const stack = [];
 let answer = ''
 
@@ -15,7 +15,9 @@ for(let i = 0; i < input.length; i++){
         }else if(stack[stack.length - 1] === '[' && cur === ']'){
             stack.pop();
             answer += ')';
-        }else stack.push(cur);
+        }else if(cur === ')' || cur === ']'){
+            stack.push(cur);
+        }
     }
 }
 
