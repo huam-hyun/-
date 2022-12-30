@@ -13,7 +13,7 @@ for(let i = 0; i < input.length; i++){
         stack.push(cur);
         temp *= 3;
     }else if(cur === ')'){
-        if(stack.length === 0 || stack[stack.length - 1] === '['){
+        if(stack.length === 0 || stack[0] === '['){
             answer = 0;
             break;
         }else if(stack[stack.length - 1] === '('){
@@ -22,7 +22,7 @@ for(let i = 0; i < input.length; i++){
         stack.pop();
         temp = Math.floor(temp / 2);
     }else{
-        if(stack.length === 0 || stack[stack.length - 1] === '('){
+        if(stack.length === 0 || stack[0] === '('){
             answer = 0;
             break;
         }else if(stack[stack.length - 1] === '['){
