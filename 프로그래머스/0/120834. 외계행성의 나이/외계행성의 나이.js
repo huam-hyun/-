@@ -1,4 +1,4 @@
 function solution(age) {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    const alphabet = 'abcdefghij'
     return age.toString().replace(/./g, (str) => alphabet[str])
 }
