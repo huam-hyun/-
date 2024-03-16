@@ -3,6 +3,8 @@ function solution(weights) {
     const memo = {}
     // memo를 통해 weight 정보를 저장합니다.
     for (const weight of weights) {
+        // weight 정보를 등록해두고 시작하면 중복되는 것을 줄여야 합니다.
+        // 어차피 짝꿍중 둘 다 등록되었을 때 한 번 더해지기 때문에 그냥 순회를 돌아도 괜찮습니다.
         answer += memo[weight] || 0
         // 2m, 3m 쌍 확인
         answer += (memo[(weight * 2) / 3] || 0) + (memo[(weight * 3) / 2] || 0)
